@@ -1,57 +1,81 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static java.lang.Integer.parseInt;
 
 public class Assorted {
 
     /**
      * Challenge 1
-     *
+     * <p>
      * Takes a list of integer values represented as a mix of both
      * integer and string data types.
+     *
      * @param list a list of integer values represented as a mix of both
      *             integer and string data types. E.g. [12, "54", "78", 16]
      * @return the sum of the elements in the list as if all elements were
-     *         integer data types.
+     * integer data types.
      */
     public static int findSum(List<?> list) {
-        return 0;
+        int sum = 0;
+        for (Object x : list) {
+            if (x instanceof Integer) {
+                sum += (Integer) x;
+            } else {
+                sum += parseInt((String) x);
+            }
+        }
+        return sum;
     }
 
     /**
      * Challenge 2
-     *
+     * <p>
      * Takes a list of integers and strings and returns a new list containing
      * the integers only (filters the strings out).
+     *
      * @param list a list of integer and string values. E.g [1, 2, "a", 5]
      * @return a list containing integers only.
      */
     public static List<Integer> filterStrings(List list) {
-        return null;
+        ArrayList<Integer> output = new ArrayList<>();
+        for (Object x : list) {
+            if (x instanceof Integer) {
+                output.add((Integer) x);
+            }
+        }
+        return output;
     }
 
     /**
      * Challenge 3
-     *
+     * <p>
      * Takes a list of strings and returns a new list that includes each element
      * prepended by the correct line number.
+     *
      * @param list a list of string values e.g. ["a", "b", "c"]
      * @return a list where each element is prepended by the correct line number
-     *         e.g. ["1: a", "2: b", "3: c"]
+     * e.g. ["1: a", "2: b", "3: c"]
      */
     public static List<String> lineNumbering(List<String> list) {
-        return null;
+        ArrayList<String> output = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            output.add(i + 1 + ": " + list.get(i));
+        }
+        return output;
     }
 
     /**
      * Challenge 4
-     *
+     * <p>
      * There is a bus moving in the city which takes and drops some people at each
      * bus stop.
-     *
+     * <p>
      * You are provided with a list (or array) of integer pairs. Elements of each pair
      * represent the number of people that get on the bus (the first item) and the number
      * of people that get off the bus (the second item) at a bus stop.
-     *
+     * <p>
      * Your task is to return the number of people who are still on the bus after the last
      * bus stop (after the last array). Even though it is the last bus stop, the bus might
      * not be empty and some people might still be inside the bus, they are probably
@@ -61,63 +85,95 @@ public class Assorted {
      * @return the number of people who are still on the bus after the last stop.
      */
     public static int busStop(List<Integer[]> list) {
-        return 0;
+        int passengers = 0;
+        for (Integer[] x : list) {
+            passengers = passengers + x[0] - x[1];
+        }
+        return passengers;
     }
 
     /**
      * Challenge 5
-     *
+     * <p>
      * Given an array of ones and zeroes, convert the equivalent binary value to an integer.
+     *
      * @param list a list of integer values. Each element is either a 0 or a 1.
      * @return the decimal value of the binary representation of the list.
-     *         Eg: [0, 0, 0, 1] is treated as 0001 which is the binary representation of 1.
+     * Eg: [0, 0, 0, 1] is treated as 0001 which is the binary representation of 1.
      */
     public static int toBinary(List<Integer> list) {
-        return 0;
+        int sum = 0;
+        int size = list.size() - 1;
+        for (int i = size; i >= 0; i--) {
+            if (list.get(i) == 1) {
+                sum += Math.pow(2, size - i);
+            }
+        }
+
+        return sum;
     }
 
     /**
      * Challenge 6
-     *
+     * <p>
      * Your goal is to implement a method which subtracts one list
      * from another and returns the result.
-     *
+     * <p>
      * It should remove all values from listA, which are present in listB keeping their order.
      * If a value is present in listB, all of its occurrences must be removed from listA.
      *
      * @param listA a list of integer values.
      * @param listB a list of integer values.
      * @return a list that contains the difference between listB and listA.
-     *         e.g. subtractList([1,2], [1]) returns [2]
-     *              subtractList([1,2,2,2,3], [2]) returns [1,3]
+     * e.g. subtractList([1,2], [1]) returns [2]
+     * subtractList([1,2,2,2,3], [2]) returns [1,3]
      */
     public static List<Integer> subtractList(List<Integer> listA, List<Integer> listB) {
-        return null;
+        for (Integer x : listB) {
+            while (listA.contains(x)) {
+                listA.remove(x);
+            }
+        }
+        return listA;
     }
 
     /**
      * Challenge 7
-     *
+     * <p>
      * Your goal is to implement a method which takes a list of integers and sorts the odd
      * numbers in ascending order while leaving the even numbers in their original positions.
      *
      * @param list a list of integers.
      * @return a list where the odd integers have been sorted in ascending order and the even
-     *         integers remain in their original position.
+     * integers remain in their original position.
      */
     public static List<Integer> sortOdd(List<Integer> list) {
-        return null;
+        ArrayList<Integer> oddNumber = new ArrayList<>();
+        for (Integer x : list) {
+            if (x % 2 != 0) {
+                oddNumber.add(x);
+            }
+        }
+        Collections.sort(oddNumber);
+        int cnt = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) % 2 != 0) {
+                list.set(i, oddNumber.get(cnt));
+                cnt++;
+            }
+        }
+        return list;
     }
 
     /**
      * Challenge 8
-     *
+     * <p>
      * Your goal is to implement a method which takes two values (a lower bound and an upper
      * bound) and returns a list of numbers that are between the lower bound and upper bound
      * (inclusive) that have a certain property.
-     *
+     * <p>
      * The property is as follows:
-     *
+     * <p>
      * The number 89 is the first integer with more than one digit whose individual digits
      * can sum to the value 89 by raising each digit to the power of the place or column of
      * which it resides. For example, 89 = 8^1 + 9^2. The next number having this property is
@@ -126,35 +182,60 @@ public class Assorted {
      * @param lowerBound an integer representing the lower bound.
      * @param upperBound an integer representing the upper bound.
      * @return a list containing all the numbers between lowerBound and upperBound (inclusive)
-     *         that meet the property mentioned above.
-     *         e.g. uniqueNumber(1,10) returns [1,2,3,4,5,6,7,8,9]
-     *              uniqueNumber(1,100) returns [1,2,3,4,5,6,7,8,9,89]
+     * that meet the property mentioned above.
+     * e.g. uniqueNumber(1,10) returns [1,2,3,4,5,6,7,8,9]
+     * uniqueNumber(1,100) returns [1,2,3,4,5,6,7,8,9,89]
      */
     public static List<Integer> uniqueNumber(int lowerBound, int upperBound) {
-        return null;
+        List<Integer> output = new ArrayList<>();
+        for (int i = lowerBound; i < upperBound; i++) {
+            String number = "" + i;
+            int out = 0;
+            for (int j = 0; j < number.length(); j++) {
+                int x = Integer.parseInt(""+number.charAt(j));
+                int add = (int) Math.pow(x,j+1);
+                out += add;
+            }
+            if (out == i) {
+                output.add(i);
+            }
+        }
+        return output;
     }
 
     /**
      * Challenge 9
-     *
+     * <p>
      * Alice and Bob were on a holiday. Both of them took many pictures of the places they've
      * been, and now they want to show Charlie their entire collection. However, Charlie doesn't
      * like these sessions, since the motif usually repeats. He isn't fond of seeing the Eiffel
      * tower 40 times.
-     *
+     * <p>
      * He tells them that he will only sit for the session if they show the same motif at most N
      * times. Luckily, Alice and Bob are able to encode the motif as a number. Can you help them
      * to remove numbers such that their list contains each number only up to N times, without
      * changing the order?
      *
      * @param list a list of motifs.
-     * @param n the maximum number of occurrences of a specific motif that is allowed.
+     * @param n    the maximum number of occurrences of a specific motif that is allowed.
      * @return a list containing each motif at most n times.
-     *         e.g. filterNTimes([1,2,3,1,2,1,2,3], 2) returns [1,2,3,1,2,3]
-     *              filterNTimes([20,37,20,21], 1) returns [20,37,21]
+     * e.g. filterNTimes([1,2,3,1,2,1,2,3], 2) returns [1,2,3,1,2,3]
+     * filterNTimes([20,37,20,21], 1) returns [20,37,21]
      */
+
     public static List<Integer> filterNTimes(List<Integer> list, int n) {
-        return null;
+        for(int i=0;i<list.size();i++){
+            int cnt =0;
+            for(int j=0;j<list.size();j++){
+                if(list.get(j)==list.get(i)){
+                    cnt++;
+                    if(cnt>n) {
+                        list.remove(j);
+                    }
+                }
+            }
+        }
+        return list;
     }
 
     /**
@@ -191,7 +272,19 @@ public class Assorted {
      *              ["WEST", "WEST"]
      */
     public static List<String> wildWest(List<String> directions) {
-        return null;
+        ArrayList<String> output = new ArrayList<>();
+        for(String x : directions){
+            if (output.size() > 0 && isOpposite(x, output.get(output.size() - 1))) {
+                output.remove(output.size() - 1);
+            } else {
+                output.add(x);
+            }
+        }
+        return output;
+    }
+    private static boolean isOpposite (String d1,String d2) {
+        return (d1.equals("NORTH") && d2.equals("SOUTH") || d1.equals("SOUTH") && d2.equals("NORTH") ||
+                d1.equals("EAST") && d2.equals("WEST") || d1.equals("WEST") && d2.equals("EAST"));
     }
 
     /**
@@ -215,6 +308,20 @@ public class Assorted {
      *              queueTime([2,3,10], 2) returns 12
      */
     public static int queueTime(List<Integer> queue, int tillsOpen) {
-        return 0;
+        int[] tills = new int[tillsOpen];
+        int max = 0;
+        for(int time : queue) {
+            int min = 0;
+            for(int i=1;i<tillsOpen;i++) {
+                if(tills[i]<tills[min]) {
+                    min = i;
+                }
+            }
+            tills[min] += time;
+            if(tills[min]>max) {
+                max = tills[min];
+            }
+        }
+        return max;
     }
 }
